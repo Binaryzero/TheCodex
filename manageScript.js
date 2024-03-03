@@ -6,23 +6,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const importBtn = document.getElementById('importBtn');
     const importFile = document.getElementById('importFile');
 
-    // Initialize theme from localStorage or default to 'light-mode'
+    // Load and apply theme
     const currentTheme = localStorage.getItem('theme') || 'light-mode';
     document.body.className = currentTheme;
     themeSwitch.checked = currentTheme === 'dark-mode';
 
-    let links = JSON.parse(localStorage.getItem('links')) || [];
-
-    // Apply theme change and update localStorage
+    // Toggle theme
     themeSwitch.addEventListener('change', function() {
-        const newTheme = this.checked ? 'dark-mode' : 'light-mode';
-        document.body.className = newTheme;
-        localStorage.setItem('theme', newTheme);
+        const theme = this.checked ? 'dark-mode' : 'light-mode';
+        document.body.className = theme;
+        localStorage.setItem('theme', theme);
     });
 
-    // Render links to the page
+    let links = JSON.parse(localStorage.getItem('links')) || [];
+
     function renderLinks() {
-        linksContainer.innerHTML = '';
+        linksContainer.textContent = ''; // Safely clear the container
         links.forEach((link, index) => {
             const div = document.createElement('div');
             div.className = 'link-item';
@@ -31,8 +30,8 @@ document.addEventListener('DOMContentLoaded', function() {
             span.textContent = link.name;
 
             const visitLink = document.createElement('a');
-            visitLink.setAttribute('href', link.url);
-            visitLink.setAttribute('target', '_blank');
+            visitLink.href = link.url;
+            visitLink.target = '_blank';
             visitLink.textContent = 'Visit';
 
             const editButton = document.createElement('button');
@@ -43,34 +42,32 @@ document.addEventListener('DOMContentLoaded', function() {
             deleteButton.textContent = 'Delete';
             deleteButton.onclick = () => deleteLink(index);
 
-            div.append(span, visitLink, editButton, deleteButton);
+            div.appendChild(span);
+            div.appendChild(visitLink);
+            div.appendChild(editButton);
+            div.appendChild(deleteButton);
             linksContainer.appendChild(div);
         });
     }
 
-    // Add a new link
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         const name = document.getElementById('siteName').value.trim();
         const url = document.getElementById('siteUrl').value.trim();
-
         links.push({ name, url });
         saveLinks();
         form.reset();
     });
 
-    // Edit a link
     window.editLink = function(index) {
-        const name = prompt('Edit site name:', links[index].name);
-        const url = prompt('Edit site URL:', links[index].url);
-
-        if (name && url) {
-            links[index] = { name, url };
+        const newName = prompt('Edit site name:', links[index].name);
+        const newUrl = prompt('Edit site URL:', links[index].url);
+        if (newName !== null && newUrl !== null) { // Check for null to allow for cancellation
+            links[index] = { name: newName, url: newUrl };
             saveLinks();
         }
     };
 
-    // Delete a link
     window.deleteLink = function(index) {
         if (confirm('Are you sure you want to delete this site?')) {
             links.splice(index, 1);
@@ -78,33 +75,28 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Save links to localStorage and re-render the list
     function saveLinks() {
         localStorage.setItem('links', JSON.stringify(links));
         renderLinks();
     }
 
-    // Export links to a file
     exportBtn.addEventListener('click', function() {
         const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(links));
         const downloadAnchorNode = document.createElement('a');
-        downloadAnchorNode.setAttribute("href", dataStr);
-        downloadAnchorNode.setAttribute("download", "links.json");
+        downloadAnchorNode.href = dataStr;
+        downloadAnchorNode.download = "links.json";
         document.body.appendChild(downloadAnchorNode);
         downloadAnchorNode.click();
         downloadAnchorNode.remove();
     });
 
-    // Import links from a file
     importBtn.addEventListener('click', function() {
         importFile.click();
     });
 
     importFile.addEventListener('change', function() {
-        const file = this.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function(e) {
+        const fileReader = new FileReader();
+        fileReader.onload = function(e) {
             try {
                 const importedLinks = JSON.parse(e.target.result);
                 links = importedLinks;
@@ -113,8 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('Failed to import links: Invalid file format.');
             }
         };
-
-        reader.readAsText(file);
+        fileReader.readAsText(this.files[0]);
     });
 
     renderLinks();
