@@ -1,0 +1,128 @@
+:root {
+    /* Light theme colors */
+    --background-color-light: #f4f4f4;
+    --text-color-light: #333;
+    --link-background-color-light: #fff;
+    --button-background-light: #e7e7e7;
+    --input-border-light: #ccc;
+
+    /* Dark theme colors */
+    --background-color-dark: #333;
+    --text-color-dark: #f4f4f4;
+    --link-background-color-dark: #444;
+    --button-background-dark: #555;
+    --input-border-dark: #888;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.light-mode {
+    background-color: var(--background-color-light);
+    color: var(--text-color-light);
+}
+
+.dark-mode {
+    background-color: var(--background-color-dark);
+    color: var(--text-color-dark);
+}
+
+.link-item {
+    background-color: var(--link-background-color-light);
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.dark-mode .link-item {
+    background-color: var(--link-background-color-dark);
+}
+
+input[type="text"], input[type="url"], button {
+    color: var(--text-color-light);
+    background-color: var(--button-background-light);
+    border: 1px solid var(--input-border-light);
+    padding: 10px;
+    margin-right: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.dark-mode input[type="text"],
+.dark-mode input[type="url"],
+.dark-mode button {
+    color: var(--text-color-dark);
+    background-color: var(--button-background-dark);
+    border: 1px solid var(--input-border-dark);
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.dark-mode a {
+    color: #4e9af1;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.theme-switch {
+    display: inline-block;
+    height: 34px;
+    position: relative;
+    width: 60px;
+}
+
+.theme-switch input {
+    display: none;
+}
+
+.slider {
+    background-color: #ccc;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    background-color: #fff;
+    bottom: 4px;
+    content: "";
+    height: 26px;
+    left: 4px;
+    position: absolute;
+    transition: .4s;
+    width: 26px;
+    border-radius: 50%;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.theme-switch-wrapper em {
+    color: inherit;
+    margin-left: 10px;
+}

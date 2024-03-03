@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Sites</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="light-mode">
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="checkbox">
+            <input type="checkbox" id="checkbox">
+            <div class="slider round"></div>
+        </label>
+        <em>Enable Dark Mode!</em>
+    </div>
+
+    <h1>Manage Sites</h1>
+    <form id="linkForm">
+        <input type="text" id="siteName" placeholder="Site Name" required>
+        <input type="url" id="siteUrl" placeholder="Site URL" required>
+        <input type="text" id="siteDescription" placeholder="Site Description (Optional)">
+        <button type="submit">Add Site</button>
+    </form>
+    
+    <div id="linksContainer"></div>
+    
+    <!-- Import/Export functionality -->
+    <button id="exportBtn">Export Sites</button>
+    <input type="file" id="importFile" />
+    <button id="importBtn">Import Sites</button>
+
+    <script src="manageScript.js"></script>
+    <a href="index.html" style="display:block; margin-top:20px;">Home</a>
+</body>
+</html>
