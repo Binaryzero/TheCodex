@@ -21,26 +21,26 @@ document.addEventListener('DOMContentLoaded', function() {
     let links = JSON.parse(localStorage.getItem('links')) || [];
 
     function renderLinks() {
-        linksContainer.textContent = ''; // Safely clear the container
+        linksContainer.innerHTML = ''; // Safely reset the container's content
         links.forEach((link, index) => {
             const div = document.createElement('div');
             div.className = 'link-item';
 
             const span = document.createElement('span');
-            span.textContent = link.name;
+            span.textContent = link.name; // Securely setting text content
 
             const visitLink = document.createElement('a');
-            visitLink.href = link.url;
-            visitLink.target = '_blank';
-            visitLink.textContent = 'Visit';
+            visitLink.setAttribute('href', link.url);
+            visitLink.setAttribute('target', '_blank');
+            visitLink.textContent = 'Visit'; // Securely setting link text
 
             const editButton = document.createElement('button');
             editButton.textContent = 'Edit';
-            editButton.onclick = () => editLink(index);
+            editButton.addEventListener('click', function() { editLink(index); });
 
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Delete';
-            deleteButton.onclick = () => deleteLink(index);
+            deleteButton.addEventListener('click', function() { deleteLink(index); });
 
             div.appendChild(span);
             div.appendChild(visitLink);
